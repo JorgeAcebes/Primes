@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Números Primos</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-size: 5em;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="primeDisplay">2</div>
+
+  <script>
+    // Lista inicial de primos y posición del primo actual
+    const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+    let currentIndex = 0;
+
+    // Función para verificar si un número es primo
+    function isPrime(num) {
+      if (num <= 1) return false;
+      for (let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++) {
+        if (num % i === 0) return false;
+      }
+      return true;
+    }
+
+    // Función para encontrar el siguiente número primo
+    function getNextPrime() {
+      currentIndex++;
+      if (currentIndex >= primes.length) {
+        let nextPrime = primes[primes.length - 1] + 2;
+        while (!isPrime(nextPrime)) nextPrime += 2;
+        primes.push(nextPrime);
+      }
+      return primes[currentIndex];
+    }
+
+    // Función para encontrar el número primo anterior
+    function getPreviousPrime() {
+      if (currentIndex > 0) currentIndex--;
+      return primes[currentIndex];
+    }
+
+    // Escuchar los clics en la pantalla
+    document.addEventListener("click", (event) => {
+      const primeDisplay = document.getElementById("primeDisplay");
+      const halfScreenWidth = window.innerWidth / 2;
+
+      // Determinar si el clic fue a la izquierda o derecha
+      if (event.clientX > halfScreenWidth) {
+        // Clic en el lado derecho - siguiente primo
+        primeDisplay.textContent = getNextPrime();
+      } else {
+        // Clic en el lado izquierdo - primo anterior
+        primeDisplay.textContent = getPreviousPrime();
+      }
+    });
+  </script>
+</body>
+</html>
